@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <!-- Report action -->
+        <record id="action_credit_group_report" model="ir.actions.report">
+            <field name="name">Credit Group Report</field>
+            <field name="model">credit.group</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">technical_exam.template_credit_group_report</field>
+            <field name="report_file">technical_exam.template_credit_group_report</field>
+            <field name="binding_model_id" ref="model_credit_group"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

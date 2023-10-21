@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="prueba_tecnica_view_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="has_credit_control"/>
+                    <field name="credit_group_ids" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible': [('has_credit_control', '=', False)], 'required': [('has_credit_control', '=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

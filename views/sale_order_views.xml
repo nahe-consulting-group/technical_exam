@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <!-- Add sale_channel_id to sale order -->
+        <record id="view_order_form_inherit_sales_channel" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.sales.channel</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="after">
+                    <field name="sales_channel_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="technical_exam_view_sale_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="credit_status" widget="statusbar" statusbar_visible="no_limit,available,blocked" statusbar_colors='{"available": "green", "blocked": "red"}' nolabel="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="technical_exam_view_sale_order_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit.credit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <!-- Attributes -->
+                    <attribute name="decoration-muted">credit_status == 'no_limit'</attribute>
+                    <attribute name="decoration-success">credit_status == 'available'</attribute>
+                    <attribute name="decoration-danger">credit_status == 'blocked'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <!-- Add credit_status to tree view -->
+                    <field name="credit_status" optional="show" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

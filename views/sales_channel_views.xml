@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sequence for sales channel code -->
+    <record id="seq_sales_channel" model="ir.sequence">
+        <field name="name">Sales Channel Code</field>
+        <field name="code">sales.channel</field>
+        <field name="prefix">SC-</field>
+        <field name="padding">3</field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_sales_channel_tree" model="ir.ui.view">
+        <field name="name">sales.channel.tree</field>
+        <field name="model">sales.channel</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Channels">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="warehouse_id"/>
+                <field name="journal_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_sales_channel_form" model="ir.ui.view">
+        <field name="name">sales.channel.form</field>
+        <field name="model">sales.channel</field>
+        <field name="arch" type="xml">
+            <form string="Sales Channel">
+                <group>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="warehouse_id"/>
+                    <field name="journal_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_sales_channels" model="ir.actions.act_window">
+        <field name="name">Sales Channels</field>
+        <field name="res_model">sales.channel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="technical_exam.view_sales_channel_tree"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="sales_channel_menu_config"
+          name="Sales Channels"
+          parent="sale.menu_sale_config"
+          sequence="2"
+          action="technical_exam.action_sales_channels"
+          groups="base.group_user"/>
+
+</odoo>

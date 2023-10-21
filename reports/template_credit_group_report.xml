@@ -1,0 +1,92 @@
+<odoo>
+    <template id="template_credit_group_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Credit Group Details -->
+                        <h2 class="mb-4">Credit Group Report: <t t-esc="o.name"/></h2>
+                        <p><strong>Code:</strong> <t t-esc="o.code"/></p>
+                        <p class="mb-4"><strong>Sales Channel:</strong> <t t-esc="o.sales_channel_id.name"/></p>
+                        
+                        <t t-set="company_currency" t-value="o.env.company.currency_id"/>
+
+                        <!-- Display Clients associated with the group -->
+                        <h3 class="mt-5 mb-3">Clients associated with the group: </h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Document Number</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.partner_ids" t-as="partner">
+                                    <tr>
+                                        <td><t t-esc="partner.name"/></td>
+                                        <td><t t-esc="partner.vat or ''"/></td>
+                                        <td><t t-esc="partner.phone or ''"/></td>
+                                        <td><t t-esc="partner.email or ''"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Display Sales Orders by Client -->
+                        <h3 class="mt-5 mb-3">Sales Orders by Client: </h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Order Number</th>
+                                    <th>Date</th>
+                                    <th>Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.partner_ids" t-as="partner">
+                                    <t t-foreach="partner.sale_order_ids" t-as="order" t-if="order.state == 'sale' and order.invoice_status == 'to invoice'">
+                                        <tr>
+                                            <td><t t-esc="partner.name"/></td>
+                                            <td><t t-esc="order.name"/></td>
+                                            <td><t t-esc="order.date_order"/></td>
+                                            <td><t t-esc="order.currency_id._convert(order.amount_total, company_currency, o.env.company, order.date_order)"/></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Display Sales Invoices by Client -->
+                        <h3 class="mt-5 mb-3">Sales Invoices by Client: </h3>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Invoice Number</th>
+                                    <th>Date</th>
+                                    <th>Amount Due</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.partner_ids" t-as="partner">
+                                    <t t-foreach="partner.invoice_ids" t-as="invoice" t-if="invoice.state == 'posted' and invoice.payment_state != 'paid' and invoice.move_type == 'out_invoice'">
+                                        <tr>
+                                            <td><t t-esc="partner.name"/></td>
+                                            <td><t t-esc="invoice.name"/></td>
+                                            <td><t t-esc="invoice.invoice_date"/></td>
+                                            <td><t t-esc="invoice.currency_id._convert(invoice.amount_total, company_currency, o.env.company, invoice.invoice_date)"/></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

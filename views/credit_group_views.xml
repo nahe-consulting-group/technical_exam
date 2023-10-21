@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Credit Group Tree View -->
+    <record id="view_credit_group_tree" model="ir.ui.view">
+        <field name="name">credit.group.tree</field>
+        <field name="model">credit.group</field>
+        <field name="arch" type="xml">
+            <tree string="Credit Groups">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="sales_channel_id"/>
+                <field name="global_credit"/>
+                <field name="used_credit"/>
+                <field name="available_credit"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Credit Group Form View -->
+    <record id="view_credit_group_form" model="ir.ui.view">
+        <field name="name">credit.group.form</field>
+        <field name="model">credit.group</field>
+        <field name="arch" type="xml">
+            <form string="Credit Group">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="sales_channel_id"/>
+                            <field name="global_credit"/>
+                        </group>
+                        <group>
+                            <field name="used_credit"/>
+                            <field name="available_credit"/>
+                            <field name="partner_ids" widget="many2many_tags" options="{'no_create': True}" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread" groups="base.group_user"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Credit Group Action -->
+    <record id="action_credit_groups" model="ir.actions.act_window">
+        <field name="name">Credit Groups</field>
+        <field name="res_model">credit.group</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Credit Group Menu -->
+    <menuitem id="menu_credit_groups" name="Credit Groups" parent="sale.menu_sale_config" sequence="11" action="action_credit_groups" groups="base.group_user"/>
+
+</odoo>
